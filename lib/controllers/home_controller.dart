@@ -5,6 +5,7 @@ import 'package:angoragh_e_commerce/home_service.dart';
 import 'package:angoragh_e_commerce/models/slider_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mh_core/utils/global.dart';
 
 import 'auth_controller.dart';
 
@@ -42,14 +43,15 @@ class HomeController extends GetxController {
         if (jsonResponse['status'] != null && jsonResponse['status']) {
           final List<dynamic> dataList = jsonResponse['data'];
           sliderList.assignAll(dataList.map((e) => SliderModel.fromJson(e)).toList());
-
+          globalLogger.d(jsonResponse['message']);
+          globalLogger.d(authToken,'token');
           // jsonResponse['data'].forEach((slide) {
           //   sliderList.add(SliderModel.fromJson(slide));
           //   print(sliderList);
           //   print(authToken);
           // });
         } else if (jsonResponse['status'] != null && !jsonResponse['status']) {
-          print(jsonResponse['message']);
+
         }
       } else {
         print(response.statusCode);
