@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
           return CircularProgressIndicator();
         } else {
           return Row(
+
             children: HomeController.to.sliderList.value.map((slider) {
               return Image.network(
                 '${contstant.apiUrl}${slider.bigImage}',
