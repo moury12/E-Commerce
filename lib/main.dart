@@ -1,5 +1,5 @@
 import 'package:angoragh_e_commerce/DB/db_helper.dart';
-import 'package:angoragh_e_commerce/bindings/home_binding.dart';
+import 'package:angoragh_e_commerce/bindings/initial_binding.dart';
 import 'package:angoragh_e_commerce/pages/home_page.dart';
 import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/splash_screen.dart';
@@ -9,14 +9,17 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
+
 final dbHelper = DatabaseHelper();
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
+  try {
+    await DatabaseHelper.initDatabase();
+  } catch (e) {
+    globalLogger.e(e);
+  }
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
-  ServiceAPI.domain("https://application.anghorag.com/");
-  ServiceAPI.extraSlag("api/");
 
   runApp(const MyApp());
 }
@@ -34,9 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),
       initialRoute: SplashScreen.routeName,
-  initialBinding: InitialBinding(),
+      initialBinding: InitialBinding(),
     );
   }
 }
-
-
