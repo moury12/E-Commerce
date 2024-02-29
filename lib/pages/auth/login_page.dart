@@ -8,32 +8,9 @@ class LoginScreen extends StatelessWidget {
 
 static const String routeName='/login';
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  void _login() async {
-    final String email = emailController.text.trim();
-    final String password = phoneNumberController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
-      Get.snackbar('Error', 'Please enter email and phone number');
-      return;
-    }
-
-    try {
-      final AuthTokenModel authToken = await AuthController.loginUser(
-        email: email,
-        password: password,
-      );
-
-      print('Login successful. Token: ${authToken.token}');
-
-      // Navigate to the next screen or perform other actions
-    } catch (error) {
-      print('Login failed. Error: $error');
-      Get.snackbar('Error', 'Failed to login. Please try again.');
-      // Handle login failure
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +32,7 @@ static const String routeName='/login';
             ),
             SizedBox(height: 16),
             TextField(
-              controller: phoneNumberController,
+              controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Phone Number',
                 hintText: 'Enter your phone number',
@@ -63,7 +40,9 @@ static const String routeName='/login';
             ),
             SizedBox(height: 32),
             ElevatedButton(
-              onPressed: _login,
+              onPressed:() {
+AuthController.to.login(emailController.text,passwordController.text );
+              },
               child: Text('Login'),
             ),
           ],

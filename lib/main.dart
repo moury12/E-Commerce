@@ -1,6 +1,7 @@
+import 'package:angoragh_e_commerce/DB/db_helper.dart';
 import 'package:angoragh_e_commerce/bindings/home_binding.dart';
 import 'package:angoragh_e_commerce/pages/home_page.dart';
-import 'package:angoragh_e_commerce/pages/login_page.dart';
+import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/splash_screen.dart';
 import 'package:angoragh_e_commerce/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mh_core/services/api_service.dart';
 import 'package:mh_core/utils/global.dart';
-
+final dbHelper = DatabaseHelper();
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: snackbarKey,
       title: 'E-commerce',
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),

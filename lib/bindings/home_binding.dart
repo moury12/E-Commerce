@@ -12,6 +12,5 @@ class InitialBinding extends Bindings {
   @override
   void dependencies() {
     Get.put<AuthController>(AuthController(),permanent: true);
-    Get.put<HomeController>(HomeController(),permanent: true);
   }
 }
