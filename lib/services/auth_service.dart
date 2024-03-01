@@ -6,7 +6,7 @@ import 'package:mh_core/utils/global.dart';
 class AuthService{
 static Future<Map<String ,dynamic>> loginService(String email, String password)
 async{
-  final url=Uri.parse('https://application.anghorag.com/api/login');
+  final url=Uri.parse('${contstant.apiUrl}login');
   final headers ={
     'Accept':'application/json',
     'Content-Type':'application/json'

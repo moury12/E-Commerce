@@ -1,32 +1,67 @@
-class SliderModel {
+class BannerModel {
   String? id;
-  String? bigImage;
-  String? smallImage;
+  String? image;
+  String? slug;
+  String? campNameId;
   String? createdAt;
   String? updatedAt;
 
-  SliderModel(
+  BannerModel(
       {this.id,
-        this.bigImage,
-        this.smallImage,
+        this.image,
+        this.slug,
+        this.campNameId,
         this.createdAt,
         this.updatedAt});
 
-  SliderModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString()=='null'?'':json['id'].toString();
-    bigImage = json['big_image'].toString()=='null'?'':json['big_image'].toString();
-    smallImage = json['small_image'].toString()=='null'?'':json['small_image'].toString();
-    createdAt = json['created_at'].toString()=='null'?'':json['created_at'].toString();
-    updatedAt = json['updated_at'].toString()=='null'?'':json['updated_at'].toString();
+  BannerModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString()=='null'?"": json['id'].toString();
+    image = json['image'].toString()=='null'?"": json['image'].toString();
+    slug = json['slug'].toString()=='null'?"": json['slug'].toString();
+    campNameId = json['camp_name_id'].toString()=='null'?"": json['camp_name_id'].toString();
+    createdAt = json['created_at'].toString()=='null'?"": json['created_at'].toString();
+    updatedAt = json['updated_at'].toString()=='null'?"": json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['id'] = this.id;
-    data['big_image'] = this.bigImage;
-    data['small_image'] = this.smallImage;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    data['id'] = id;
+    data['image'] = image;
+    data['slug'] = slug;
+    data['camp_name_id'] = campNameId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
+  }
+}
+class CampaignModel {
+  final int? id;
+  final String? cpName;
+  final String? colorCode;
+  final int? status;
+  final String? image;
+  final String? createdAt;
+  final String? updatedAt;
+
+  CampaignModel({
+     this.id,
+     this.cpName,
+     this.colorCode,
+     this.status,
+     this.image,
+     this.createdAt,
+     this.updatedAt,
+  });
+
+  factory CampaignModel.fromJson(Map<String, dynamic> json) {
+    return CampaignModel(
+      id: json['id'],
+      cpName: json['cp_name'],
+      colorCode: json['color_code'],
+      status: json['status'],
+      image: json['image'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
   }
 }

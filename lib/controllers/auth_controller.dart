@@ -51,6 +51,7 @@ class AuthController extends GetxController {
     token = await DatabaseHelper.getAccessToken();
     if (token != null) {
       isLoggedIn.value = true;
+      Get.put<HomeController>(HomeController(), permanent: true);
       globalLogger.d(token,'Access Token');
     } else {
       isLoggedIn.value = false;

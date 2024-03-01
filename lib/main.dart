@@ -20,7 +20,6 @@ void main() async {
   }
   navigatorKey = GlobalKey<NavigatorState>();
   snackbarKey = GlobalKey<ScaffoldMessengerState>();
-
   runApp(const MyApp());
 }
 
