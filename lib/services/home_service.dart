@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:angoragh_e_commerce/models/category_model.dart';
 import 'package:angoragh_e_commerce/models/category_model.dart';
 import 'package:angoragh_e_commerce/models/category_model.dart';
+import 'package:angoragh_e_commerce/models/product_model.dart';
+import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/models/slider_model.dart';
 import 'package:angoragh_e_commerce/constant/constant.dart';
 import 'package:http/http.dart' as http;
@@ -66,5 +68,27 @@ if(responseData['success']){
       showSnackBar(msg: responseData['message']);
     }
     return categoryList;
+  }
+  static Future<List<ProductModel>> sellerPickCall() async {
+    List<ProductModel> productList = [];
+    final url = Uri.parse('${contstant.apiUrl}sellers_picks_data?pagination=3');
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    final response = await http.get(url, headers: headers);
+
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+    globalLogger.d(responseData);
+    if(responseData['success']){
+      final Map<String, dynamic> data = responseData['data'];
+      final List<dynamic> productDataList = data['data']; // Accessing the 'data' field correctly
+      productList = productDataList
+          .map((e) => ProductModel.fromJson(e))
+          .toList();
+    }else{
+      showSnackBar(msg: responseData['message']);
+    }
+    return productList;
   }
 }

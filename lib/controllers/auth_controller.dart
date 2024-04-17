@@ -1,5 +1,6 @@
 import 'package:angoragh_e_commerce/DB/db_helper.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
+import 'package:angoragh_e_commerce/pages/home_page.dart';
 import 'package:angoragh_e_commerce/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,7 @@ class AuthController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   String? token;
   @override
-  void onInit() {
+  void onInit() { 
     getAccessToken();
     super.onInit();
   }
@@ -35,8 +36,10 @@ class AuthController extends GetxController {
         var token = data['token'];
         DatabaseHelper.insertLoginData(token);
         isLoggedIn.value = true;
+
         showSnackBar(msg: 'Login successfully!');
         Get.put<HomeController>(HomeController(), permanent: true);
+        Get.toNamed(HomeScreen.routeName);
       } else {
         // Show error message
         showSnackBar(msg: response['message']);
