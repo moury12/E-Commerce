@@ -57,18 +57,12 @@ class HomeScreen extends StatelessWidget {
                 return Column(
                   children: [
 
-                    Stack(
-                      children: [
-                        Image.network('${contstant.url}${sellerPicks.mainImages ??
-                        ''}'),
-                        Positioned(
-
-                            child: Text(sellerPicks.name??''),
-                          bottom: 0,
-                        )
-
-                      ],
+                    Expanded(
+                      child: Image.network(fit: BoxFit.fitWidth,
+                          '${contstant.url}${sellerPicks.mainImages ??
+                      ''}'),
                     ),
+                    Text(sellerPicks.name??''),
                   ],
                 );
               },)

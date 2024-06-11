@@ -1,9 +1,5 @@
 import 'dart:convert';
-
 import 'package:angoragh_e_commerce/models/category_model.dart';
-import 'package:angoragh_e_commerce/models/category_model.dart';
-import 'package:angoragh_e_commerce/models/category_model.dart';
-import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/models/slider_model.dart';
 import 'package:angoragh_e_commerce/constant/constant.dart';
@@ -69,9 +65,12 @@ if(responseData['success']){
     }
     return categoryList;
   }
-  static Future<List<ProductModel>> sellerPickCall() async {
+  static Future<List<ProductModel>> sellerPickCall({String? paginationUrl}) async {
     List<ProductModel> productList = [];
-    final url = Uri.parse('${contstant.apiUrl}sellers_picks_data?pagination=3');
+    int currentPage =1;
+    bool hasMoreData = true;
+    if(hasMoreData){
+    final url = Uri.parse('${contstant.apiUrl}sellers_picks_data?pagination=5&page=$currentPage');
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -80,15 +79,22 @@ if(responseData['success']){
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     globalLogger.d(responseData);
-    if(responseData['success']){
+    if(responseData['success']!=null && responseData['success']){
       final Map<String, dynamic> data = responseData['data'];
       final List<dynamic> productDataList = data['data']; // Accessing the 'data' field correctly
       productList = productDataList
           .map((e) => ProductModel.fromJson(e))
           .toList();
+      if(data['next_page_url']!=null){
+        currentPage++;
+      }
+      else{
+        hasMoreData =false;
+      }
     }else{
       showSnackBar(msg: responseData['message']);
-    }
+      hasMoreData=false;
+    }}
     return productList;
   }
 }
