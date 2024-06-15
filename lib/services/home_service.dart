@@ -56,7 +56,7 @@ if(responseData['success']){
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     globalLogger.d(responseData);
-    if(responseData['success']){
+    if(responseData['success']!=null && responseData['success']){
       final List<dynamic> bannerDataList = responseData['data'];
       categoryList=bannerDataList.map((e) => CategoryModel.fromJson(e))
           .toList();
@@ -65,12 +65,11 @@ if(responseData['success']){
     }
     return categoryList;
   }
-  static Future<List<ProductModel>> sellerPickCall({String? paginationUrl}) async {
+  static Future<List<ProductModel>> sellerPickCall(int currentPage, int perPage) async {
     List<ProductModel> productList = [];
-    int currentPage =1;
     bool hasMoreData = true;
     if(hasMoreData){
-    final url = Uri.parse('${contstant.apiUrl}sellers_picks_data?pagination=5&page=$currentPage');
+    final url = Uri.parse('${contstant.apiUrl}sellers_picks_data?page=$currentPage');
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -85,12 +84,7 @@ if(responseData['success']){
       productList = productDataList
           .map((e) => ProductModel.fromJson(e))
           .toList();
-      if(data['next_page_url']!=null){
-        currentPage++;
-      }
-      else{
-        hasMoreData =false;
-      }
+
     }else{
       showSnackBar(msg: responseData['message']);
       hasMoreData=false;

@@ -1,3 +1,4 @@
+
 class CategoryModel {
   String? id;
   String? name;
@@ -37,6 +38,72 @@ class CategoryModel {
     data['status'] = status;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+class MultilevelCategoryModel {
+  String? id;
+  String? name;
+  String? slug;
+  List<SubItems>? subItems;
+
+  MultilevelCategoryModel({this.id, this.name, this.slug, this.subItems});
+
+  MultilevelCategoryModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString()=='null'?'':json['id'].toString();
+    name = json['name'].toString()=='null'?'':json['name'].toString();
+    slug = json['slug'].toString()=='null'?'':json['slug'].toString();
+    if (json['sub_items'] != null) {
+      subItems = <SubItems>[];
+      json['sub_items'].forEach((v) {
+        subItems!.add(SubItems.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['slug'] = slug;
+    if (subItems != null) {
+      data['sub_items'] = subItems!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SubItems {
+  String? id;
+  String? categoryId;
+  String? name;
+  String? slug;
+  List<SubItems>? subSubItems;
+
+  SubItems({this.id, this.categoryId, this.name, this.slug, this.subSubItems});
+
+  SubItems.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString()=='null'?'':json['id'].toString();
+    categoryId = json['category_id'].toString()=='null'?'':json['category_id'].toString();
+    name = json['name'].toString()=='null'?'':json['name'].toString();
+    slug = json['slug'].toString()=='null'?'':json['slug'].toString();
+    if (json['sub_sub_items'] != null) {
+      subSubItems = <SubItems>[];
+      json['sub_sub_items'].forEach((v) {
+        subSubItems!.add(SubItems.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['name'] = name;
+    data['slug'] = slug;
+    if (subSubItems != null) {
+      data['sub_sub_items'] = subSubItems!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
