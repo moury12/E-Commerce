@@ -1,0 +1,3 @@
+enum ProductVariation{
+  color, size
+}

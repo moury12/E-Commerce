@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
+import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'home_page.dart';
 import 'auth/login_page.dart';
 
 class SplashScreen extends StatelessWidget {

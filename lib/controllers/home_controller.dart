@@ -1,9 +1,15 @@
+
+import 'package:angoragh_e_commerce/controllers/product_controller.dart';
 import 'package:angoragh_e_commerce/models/category_model.dart';
-import 'package:angoragh_e_commerce/models/category_model.dart';
-import 'package:angoragh_e_commerce/models/product_model.dart';
+import 'package:angoragh_e_commerce/models/color_size_brand_model.dart';
+import 'package:angoragh_e_commerce/models/color_size_brand_model.dart';
+import 'package:angoragh_e_commerce/models/color_size_brand_model.dart';
+import 'package:angoragh_e_commerce/models/color_size_brand_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/services/home_service.dart';
 import 'package:angoragh_e_commerce/models/slider_model.dart';
+import 'package:angoragh_e_commerce/services/product_service.dart';
+import 'package:angoragh_e_commerce/utils/enum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -12,57 +18,66 @@ class HomeController extends GetxController {
   RxList<BannerModel> bannerList = <BannerModel>[].obs;
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
   RxList<ProductModel> sellerPickList = <ProductModel>[].obs;
+  RxList<ColorSizeModel> colorList = <ColorSizeModel>[].obs;
+  RxList<ColorSizeModel> sizeList = <ColorSizeModel>[].obs;
+  RxList<BrandModel> brandList = <BrandModel>[].obs;
+  RxString paginationUrl = ''.obs;
+  RxList<MultilevelCategoryModel> multilevelCategory = <MultilevelCategoryModel>[].obs;
   Rx<CampaignModel> campingBanner = CampaignModel().obs;
-  RxBool isLoading = false.obs;
-  RxInt currentPage = 1.obs;
-  RxBool hasMoreData = true.obs;
-  final int perPage =5;
-  ScrollController scrollController =ScrollController();
+
+  ScrollController scrollController = ScrollController();
   @override
   void onInit() {
     fetchBanner();
     fetchCampingBanner();
     fetchCategory();
     fetchSellerPick();
+    fetchMultilevelCategory();
+    getSizeColorData ();
+    fetchBrand();
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !isLoading.value && hasMoreData.value) {
-        fetchSellerPick();
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent ) {
+       if(paginationUrl.value.isNotEmpty){
+         fetchSellerPick(initialCall: false);
+       }
       }
-    }
-    );
+    });
     super.onInit();
   }
-@override
+
+  @override
   void onClose() {
     scrollController.dispose();
     // TODO: implement onClose
     super.onClose();
   }
+void fetchBrand() async{
+    brandList.value = await ProductService.fetchBrandOfProduct();
+}
   void fetchBanner() async {
     bannerList.value = await HomeService.bannerCall();
   }
+
   void fetchCategory() async {
     categoryList.value = await HomeService.categoryCall();
   }
-  void fetchSellerPick() async {
-    if(isLoading.value||!hasMoreData.value){
-      return;
-    }else{
-      isLoading.value=true;
-      try{
-        sellerPickList.value = await HomeService.sellerPickCall(currentPage.value, perPage);
-if(sellerPickList.isNotEmpty){
-  currentPage.value++;
-}else{
-  hasMoreData.value=false;
+Future<void> getSizeColorData () async{
+    final data = await ProductService.fetchColorSizeOfProduct();
+    colorList.value =data[ProductVariation.color] as List<ColorSizeModel>;
+    sizeList.value =data[ProductVariation.size] as List<ColorSizeModel>;
 }
-      }catch(e){
-        Get.snackbar('Error', e.toString());
-      }finally{
-        isLoading.value=false;
-      }
-    }
+  void fetchSellerPick({bool initialCall= true}) async {
+final productData = await HomeService.sellerPickCall(paginationUrl: initialCall?null:paginationUrl.value);
+if(initialCall){
+  sellerPickList.value = productData;
+}
+else{
+  sellerPickList.addAll(productData);
+}
+  }
 
+  void fetchMultilevelCategory() async {
+    multilevelCategory.value = await ProductService.fetchMultilevelCategory();
   }
 
   void fetchCampingBanner() async {

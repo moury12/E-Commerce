@@ -1,6 +1,6 @@
 import 'package:angoragh_e_commerce/DB/db_helper.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
-import 'package:angoragh_e_commerce/pages/home_page.dart';
+import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:angoragh_e_commerce/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

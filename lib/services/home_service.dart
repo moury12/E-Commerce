@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/models/category_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/models/slider_model.dart';
@@ -65,11 +66,11 @@ if(responseData['success']){
     }
     return categoryList;
   }
-  static Future<List<ProductModel>> sellerPickCall(int currentPage, int perPage) async {
+  static Future<List<ProductModel>> sellerPickCall({String? paginationUrl}) async {
     List<ProductModel> productList = [];
     bool hasMoreData = true;
     if(hasMoreData){
-    final url = Uri.parse('${contstant.apiUrl}sellers_picks_data?page=$currentPage');
+    final url = Uri.parse(paginationUrl??'${contstant.apiUrl}sellers_picks_data');
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -84,6 +85,8 @@ if(responseData['success']){
       productList = productDataList
           .map((e) => ProductModel.fromJson(e))
           .toList();
+      HomeController.to.paginationUrl.value=data['next_page_url'];
+      paginationUrl=HomeController.to.paginationUrl.value;
 
     }else{
       showSnackBar(msg: responseData['message']);

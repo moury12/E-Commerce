@@ -1,4 +1,6 @@
 
+import 'package:get/get.dart';
+
 class CategoryModel {
   String? id;
   String? name;
@@ -45,14 +47,16 @@ class MultilevelCategoryModel {
   String? id;
   String? name;
   String? slug;
+  RxBool? selected =false.obs;
   List<SubItems>? subItems;
 
-  MultilevelCategoryModel({this.id, this.name, this.slug, this.subItems});
+  MultilevelCategoryModel({this.id, this.name, this.slug, this.subItems,this.selected});
 
   MultilevelCategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString()=='null'?'':json['id'].toString();
     name = json['name'].toString()=='null'?'':json['name'].toString();
     slug = json['slug'].toString()=='null'?'':json['slug'].toString();
+    selected =false.obs;
     if (json['sub_items'] != null) {
       subItems = <SubItems>[];
       json['sub_items'].forEach((v) {
@@ -78,15 +82,18 @@ class SubItems {
   String? categoryId;
   String? name;
   String? slug;
+  RxBool? selected =false.obs;
+
   List<SubItems>? subSubItems;
 
-  SubItems({this.id, this.categoryId, this.name, this.slug, this.subSubItems});
+  SubItems({this.id, this.categoryId, this.name, this.slug, this.subSubItems,this.selected});
 
   SubItems.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString()=='null'?'':json['id'].toString();
     categoryId = json['category_id'].toString()=='null'?'':json['category_id'].toString();
     name = json['name'].toString()=='null'?'':json['name'].toString();
     slug = json['slug'].toString()=='null'?'':json['slug'].toString();
+    selected = false.obs;
     if (json['sub_sub_items'] != null) {
       subSubItems = <SubItems>[];
       json['sub_sub_items'].forEach((v) {
