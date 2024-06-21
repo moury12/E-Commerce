@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 class ProductService {
   static Future<ProductDetailsModel> fetchProductDetails(String slug) async {
     ProductDetailsModel productDetailsModel = ProductDetailsModel();
-    final url = Uri.parse('${contstant.apiUrl}get_single_products/$slug');
+    final url = Uri.parse('${Constant.apiUrl}get_single_products/$slug');
     final headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
     final response = await http.get(headers: headers, url);
     final Map<String, dynamic> responseData = jsonDecode(response.body);
@@ -28,7 +28,7 @@ class ProductService {
 
   static Future<List<MultilevelCategoryModel>> fetchMultilevelCategory() async {
     List<MultilevelCategoryModel> categoryList = [];
-    final url = Uri.parse('${contstant.apiUrl}category_level');
+    final url = Uri.parse('${Constant.apiUrl}category_level');
     final headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
     final response = await http.get(url, headers: headers);
     final Map<String, dynamic> responseData = jsonDecode(response.body);
@@ -40,13 +40,16 @@ class ProductService {
     }
     return categoryList;
   }
+
   static Future<List<FilteredProductModel>> fetchProductByFilter({String? paginationUrl}) async {
     List<FilteredProductModel> filteredProducts = [];
     final url = Uri.parse(paginationUrl ??
-        '${contstant.apiUrl}product-filter?pagination=10&subcategory='
+        '${Constant.apiUrl}product-filter?pagination=10&subcategory='
             '${ProductController.to.subCategory.isEmpty ? '[]' : '${ProductController.to.subCategory}'}'
             '&child_category=${ProductController.to.childCategory.isEmpty ? '[]' : '${ProductController.to.childCategory}'}'
-            '&brand=[]&color=[]&size=[]&max_min=[]'
+            '&brand=${ProductController.to.brandList.isEmpty?'[]':ProductController.to.brandList}&color='
+            '${ProductController.to.colorList.isEmpty?'[]':ProductController.to.colorList}'
+            '&size=${ProductController.to.sizeList.isEmpty?'[]':ProductController.to.sizeList}&max_min=[]'
             '&category=${ProductController.to.category.isEmpty ? '[]' : '${ProductController.to.category}'}');
 
     debugPrint(url.toString());
@@ -76,7 +79,7 @@ class ProductService {
   static Future<Map<ProductVariation, List<ColorSizeModel>>> fetchColorSizeOfProduct() async {
     List<ColorSizeModel> colors = [];
     List<ColorSizeModel> sizes = [];
-    final url1 = Uri.parse('${contstant.apiUrl}product/color');
+    final url1 = Uri.parse('${Constant.apiUrl}product/color');
     final headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
     final response1 = await http.get(url1, headers: headers);
     final Map<String, dynamic> colorsData = jsonDecode(response1.body);
@@ -86,7 +89,7 @@ class ProductService {
     } else {
       Get.snackbar('error', colorsData['message']);
     }
-    final url2 = Uri.parse('${contstant.apiUrl}product/size');
+    final url2 = Uri.parse('${Constant.apiUrl}product/size');
     final response2 = await http.get(url2, headers: headers);
     final Map<String, dynamic> sizeData = jsonDecode(response2.body);
     final List<dynamic> sizeList = sizeData['data']['sizes'];
@@ -95,21 +98,19 @@ class ProductService {
     } else {
       Get.snackbar('error', sizeData['message']);
     }
-    return{
-      ProductVariation.color:colors,
-      ProductVariation.size: sizes
-    };
+    return {ProductVariation.color: colors, ProductVariation.size: sizes};
   }
-  static Future<List<BrandModel>> fetchBrandOfProduct() async{
-    List<BrandModel> brandList =[];
-    final url =Uri.parse('${contstant.apiUrl}product/brand');
+
+  static Future<List<BrandModel>> fetchBrandOfProduct() async {
+    List<BrandModel> brandList = [];
+    final url = Uri.parse('${Constant.apiUrl}product/brand');
     final headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
-    final response = await http.get(url,headers: headers);
-    final Map<String, dynamic> responseData =jsonDecode(response.body);
+    final response = await http.get(url, headers: headers);
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
     final List<dynamic> dataList = responseData['data']['brand'];
-    if(responseData['success']!=null && responseData['success']){
-      brandList= dataList.map((e) => BrandModel.fromJson(e)).toList();
-    }else{
+    if (responseData['success'] != null && responseData['success']) {
+      brandList = dataList.map((e) => BrandModel.fromJson(e)).toList();
+    } else {
       Get.snackbar('Error', responseData['message']);
     }
     return brandList;

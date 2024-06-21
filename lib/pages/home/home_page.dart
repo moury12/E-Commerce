@@ -2,7 +2,7 @@ import 'package:angoragh_e_commerce/constant/constant.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/controllers/product_controller.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
-import 'package:angoragh_e_commerce/pages/product-details/productDetailsScreen.dart';
+import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +18,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [IconButton(onPressed: () {
+          Get.put(ProductController());
           Get.toNamed(FilterScreen.routeName);
-        }, icon: Icon(Icons.filter))],
+        }, icon: const Icon(Icons.filter))],
         leading: Builder(builder: (context) {
           return IconButton(
               onPressed: () {
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
           // controller: HomeController.to.scrollController,
           child: Column(
             children: [
-              Image.network('${contstant.url}${HomeController.to.campingBanner.value.image}'),
+              Image.network('${Constant.url}${HomeController.to.campingBanner.value.image}'),
               SizedBox(
                 height: 200,
                 child: ListView.builder(
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     final banner = HomeController.to.bannerList[index];
-                    return Image.network('${contstant.url}${banner.image}');
+                    return Image.network('${Constant.url}${banner.image}');
                   },
                 ),
               ),
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                       return Column(
                         children: [
                           Image.network(
-                            '${contstant.url}${category.image}',
+                            '${Constant.url}${category.image}',
                             height: 50,
                           ),
                           Text(category.name ?? '')
@@ -70,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                   const Text('Seller Picks'),
                   ElevatedButton(onPressed: () {
                     Get.to(ProductListWidget(productModel:HomeController.to.sellerPickList));
-                  }, child: Text('view more'))
+                  }, child: const Text('view more'))
                 ],
               ),
               GridView.builder(
@@ -93,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Image.network(fit: BoxFit.fitWidth, '${contstant.url}${sellerPicks.mainImages ?? ''}'),
+                          child: Image.network(fit: BoxFit.fitWidth, '${Constant.url}${sellerPicks.mainImages ?? ''}'),
                         ),
                         Text(sellerPicks.name ?? ''),
                       ],

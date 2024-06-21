@@ -2,8 +2,7 @@ import 'package:angoragh_e_commerce/constant/constant.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/controllers/product_controller.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
-import 'package:angoragh_e_commerce/pages/product-details/productDetailsScreen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,8 +38,8 @@ class ProductListWidget extends StatelessWidget {
     return
       Column(
         children: [
-          Image.network('${contstant.url}${product.mainImages}',height: 100,width: 100,),
-          Text(product.name??''),Text(product.categoryId??'')
+          Image.network('${Constant.url}${product.mainImages}',height: 100,width: 100,),
+          Text(product.name??'',maxLines: 2,),Text('${product.categoryId??' '} ${product.colors} ${product.brandId}')
         ],
       );
   }
@@ -60,7 +59,7 @@ Widget buildProductItem(ProductModel product) {
     child: Column(
       children: [
         Expanded(
-          child: Image.network(fit: BoxFit.fitWidth, '${contstant.url}${product.mainImages ?? ''}'),
+          child: Image.network(fit: BoxFit.fitWidth, '${Constant.url}${product.mainImages ?? ''}'),
         ),
         Text(product.name ?? ''),
       ],

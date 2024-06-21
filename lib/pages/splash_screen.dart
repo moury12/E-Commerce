@@ -8,13 +8,15 @@ import 'auth/login_page.dart';
 class SplashScreen extends StatelessWidget {
 static const String routeName ='/';
 
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Get.offAndToNamed(AuthController.to.isLoggedIn.value?HomeScreen
           .routeName:LoginScreen.routeName);
     },);
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator()
       ),

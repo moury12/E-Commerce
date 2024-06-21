@@ -4,7 +4,6 @@ import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:angoragh_e_commerce/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/utils/global.dart';
 
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
@@ -30,23 +29,23 @@ class AuthController extends GetxController {
   void login(String email, String password) async {
     try {
       var response = await AuthService.loginService(email, password);
-      globalLogger.d(response, 'Login response');
       if (response['success']) {
         var data = response['data'];
         var token = data['token'];
         DatabaseHelper.insertLoginData(token);
         isLoggedIn.value = true;
+        Get.snackbar('Authentication','Login successfully!');
 
-        showSnackBar(msg: 'Login successfully!');
         Get.put<HomeController>(HomeController(), permanent: true);
         Get.toNamed(HomeScreen.routeName);
       } else {
         // Show error message
-        showSnackBar(msg: response['message']);
+        Get.snackbar('Error',response['message']);
       }
     } catch (e) {
       // Handle network errors or other exceptions
-      showSnackBar(msg: 'Failed to login. Please try again later.');
+      Get.snackbar('Authentication Error','Failed to login. Please try again later.');
+
     }
   }
 
@@ -55,7 +54,7 @@ class AuthController extends GetxController {
     if (token != null) {
       isLoggedIn.value = true;
       Get.put<HomeController>(HomeController(), permanent: true);
-      globalLogger.d(token,'Access Token');
+      debugPrint('$token Access Token');
     } else {
       isLoggedIn.value = false;
     }

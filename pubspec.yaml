@@ -39,10 +39,7 @@ dependencies:
   get: ^4.6.6
   get_storage: ^2.1.1
   sqflite: ^2.3.2
-  mh_core:
-     git:
-       url: https://github.com/mh-sarkar/mh-core.git
-       ref: alpha
+
 
 dev_dependencies:
   flutter_test:

@@ -3,7 +3,6 @@ import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/services/product_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class ProductController extends GetxController {
   static ProductController get to => Get.find();
@@ -12,6 +11,9 @@ class ProductController extends GetxController {
   RxList<int> category = <int>[].obs;
   RxList<int> subCategory = <int>[].obs;
   RxList<int> childCategory = <int>[].obs;
+  RxList<int> colorList = <int>[].obs;
+  RxList<int> sizeList = <int>[].obs;
+  RxList<int> brandList = <int>[].obs;
   RxString paginationUrl = ''.obs;
   ScrollController scrollController = ScrollController();
   @override

@@ -4,7 +4,6 @@ import 'package:angoragh_e_commerce/pages/splash_screen.dart';
 import 'package:angoragh_e_commerce/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mh_core/utils/global.dart';
 
 final dbHelper = DatabaseHelper();
 void main() async {
@@ -12,10 +11,9 @@ void main() async {
   try {
     await DatabaseHelper.initDatabase();
   } catch (e) {
-    globalLogger.e(e);
+    debugPrint(e.toString());
   }
-  navigatorKey = GlobalKey<NavigatorState>();
-  snackbarKey = GlobalKey<ScaffoldMessengerState>();
+
   runApp(const MyApp());
 }
 
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      scaffoldMessengerKey: snackbarKey,
       title: 'E-commerce',
       theme: ThemeData.light(),
       getPages: AppRoutes.routes(),
