@@ -1,5 +1,7 @@
 import 'package:angoragh_e_commerce/bindings/home_binding.dart';
 import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
+import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
+import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
@@ -20,13 +22,14 @@ class AppRoutes {
         GetPage(
           name: ProductDetailsScreen.routeName,
           page: () => const ProductDetailsScreen(),
-        ), GetPage(
+        ),
+        GetPage(
           name: FilterScreen.routeName,
           page: () => const FilterScreen(),
         ),
-        // GetPage(
-        //       name: ProductListWidget.routeName,
-        //       page: () => const ProductListWidget(),
-        //     ),
+        GetPage(
+          name: CampingDetailsScreen.routeName,
+          page: () => const CampingDetailsScreen(),
+        ),
       ];
 }
