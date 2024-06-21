@@ -6,6 +6,8 @@ import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
 import 'package:angoragh_e_commerce/pages/splash_screen.dart';
+import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
+import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -30,6 +32,10 @@ class AppRoutes {
         GetPage(
           name: CampingDetailsScreen.routeName,
           page: () => const CampingDetailsScreen(),
+        ),
+        GetPage(
+          name: ProfileScreen.routeName,
+          page: () => const ProfileScreen(),
         ),
       ];
 }

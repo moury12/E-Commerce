@@ -1,5 +1,6 @@
 import 'package:angoragh_e_commerce/DB/db_helper.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
+import 'package:angoragh_e_commerce/models/user_model.dart';
 import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:angoragh_e_commerce/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,14 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
   RxBool isLoggedIn = false.obs;
-
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
+  Rx<UserModel> user = UserModel().obs;
   String? token;
   @override
-  void onInit() { 
+  void onInit() {
     getAccessToken();
+    getUserData();
     super.onInit();
   }
 
@@ -34,18 +35,17 @@ class AuthController extends GetxController {
         var token = data['token'];
         DatabaseHelper.insertLoginData(token);
         isLoggedIn.value = true;
-        Get.snackbar('Authentication','Login successfully!');
+        Get.snackbar('Authentication', 'Login successfully!');
 
         Get.put<HomeController>(HomeController(), permanent: true);
         Get.toNamed(HomeScreen.routeName);
       } else {
         // Show error message
-        Get.snackbar('Error',response['message']);
+        Get.snackbar('Error', response['message']);
       }
     } catch (e) {
       // Handle network errors or other exceptions
-      Get.snackbar('Authentication Error','Failed to login. Please try again later.');
-
+      Get.snackbar('Authentication Error', 'Failed to login. Please try again later.');
     }
   }
 
@@ -58,5 +58,9 @@ class AuthController extends GetxController {
     } else {
       isLoggedIn.value = false;
     }
+  }
+
+  void getUserData() async {
+    user.value = await AuthService.fetchUserData();
   }
 }

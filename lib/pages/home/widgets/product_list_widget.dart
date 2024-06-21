@@ -61,7 +61,10 @@ Widget buildProductItem(ProductModel product) {
         Expanded(
           child: Image.network(fit: BoxFit.fitWidth, '${Constant.url}${product.mainImages ?? ''}'),
         ),
-        Text(product.name ?? ''),
+        Text(product.name ?? '',maxLines: 2,),
+        ElevatedButton(onPressed: () {
+
+        }, child: Text('Add to cart'))
       ],
     ),
   );

@@ -4,6 +4,7 @@ import 'package:angoragh_e_commerce/controllers/product_controller.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
+import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +25,13 @@ class HomeScreen extends StatelessWidget {
                 Get.put(ProductController());
                 Get.toNamed(FilterScreen.routeName);
               },
-              icon: const Icon(Icons.filter))
+              icon: const Icon(Icons.filter)),
+          IconButton(
+              onPressed: () {
+                // Get.put(ProductController());
+                Get.toNamed(ProfileScreen.routeName);
+              },
+              icon: const Icon(Icons.account_box))
         ],
         leading: Builder(builder: (context) {
           return IconButton(

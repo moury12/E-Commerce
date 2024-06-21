@@ -3,6 +3,7 @@ import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/models/camping_details_model.dart';
 import 'package:angoragh_e_commerce/models/camping_type_model.dart';
 import 'package:angoragh_e_commerce/models/category_model.dart';
+import 'package:angoragh_e_commerce/models/checkout_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/models/slider_model.dart';
 import 'package:angoragh_e_commerce/constant/constant.dart';
@@ -56,6 +57,20 @@ class HomeService {
       Get.snackbar('Error', responseData['message']);
     }
     return campingData;
+  }
+  static Future<DeliveryChargeModel> deliverChargeCall() async {
+    DeliveryChargeModel charge = DeliveryChargeModel();
+    final url = Uri.parse('${Constant.apiUrl}delivery_charges');
+    final headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+    final response = await http.get(url, headers: headers);
+
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+    if (responseData['success'] != null && responseData['success']) {
+      charge = DeliveryChargeModel.fromJson(responseData['data']);
+    } else {
+      Get.snackbar('Error', responseData['message']);
+    }
+    return charge;
   }
 
   static Future<List<CategoryModel>> categoryCall() async {

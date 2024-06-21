@@ -1,7 +1,7 @@
 import 'package:angoragh_e_commerce/models/camping_details_model.dart';
 import 'package:angoragh_e_commerce/models/camping_type_model.dart';
-import 'package:angoragh_e_commerce/models/camping_type_model.dart';
 import 'package:angoragh_e_commerce/models/category_model.dart';
+import 'package:angoragh_e_commerce/models/checkout_model.dart';
 import 'package:angoragh_e_commerce/models/color_size_brand_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/services/home_service.dart';
@@ -20,6 +20,7 @@ class HomeController extends GetxController {
   RxList<ColorSizeModel> sizeList = <ColorSizeModel>[].obs;
   RxList<BrandModel> brandList = <BrandModel>[].obs;
   RxList<CampingType> campingTypeList = <CampingType>[].obs;
+  Rx<DeliveryChargeModel> deliveryCharge = DeliveryChargeModel().obs;
   RxString paginationUrl = ''.obs;
   RxList<MultilevelCategoryModel> multilevelCategory = <MultilevelCategoryModel>[].obs;
   Rx<CampaignModel> campingBanner = CampaignModel().obs;
@@ -35,6 +36,7 @@ class HomeController extends GetxController {
     getSizeColorData();
     fetchBrand();
     fetchCampingType();
+    fetchDeliveryCharge();
     scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
         if (paginationUrl.value.isNotEmpty) {
@@ -55,9 +57,15 @@ class HomeController extends GetxController {
   void fetchCampingType() async {
     campingTypeList.value = await HomeService.campingTypeCall();
   }
-void fetchCampingDetails(String id ) async{
-    campingDetailsModel.value =await HomeService.fetchCampingDetails(id);
-}
+
+  void fetchDeliveryCharge() async {
+    deliveryCharge.value = await HomeService.deliverChargeCall();
+  }
+
+  void fetchCampingDetails(String id) async {
+    campingDetailsModel.value = await HomeService.fetchCampingDetails(id);
+  }
+
   void fetchBrand() async {
     brandList.value = await ProductService.fetchBrandOfProduct();
   }
