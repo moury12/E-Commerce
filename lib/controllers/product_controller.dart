@@ -1,8 +1,10 @@
+import 'package:angoragh_e_commerce/models/cart_model.dart';
 import 'package:angoragh_e_commerce/models/product_details_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/services/product_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ProductController extends GetxController {
   static ProductController get to => Get.find();

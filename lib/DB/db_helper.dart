@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:angoragh_e_commerce/models/cart_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -7,6 +10,8 @@ class DatabaseHelper {
   static const String tableName = 'login';
   static const String columnId = 'id';
   static const String columnAccessToken = 'access_token';
+  static const tableCartDetails = 'cart_details';
+  static const tableBillingShippingDetails = 'billing_shipping_details';
   static const columnProductId = 'product_id';
   static const columnQuantity = 'quantity';
   static const columnCampaignId = 'campaign_id';
@@ -24,8 +29,7 @@ class DatabaseHelper {
   static const columnSDistrict = 's_district';
   static const columnSArea = 's_area';
   static const columnSAddress = 's_address';
-  static const columnOrderNotes = 'order_notes';
-  static const columnCouponCode = 'coupon_code';
+
   static Future<Database> get database async {
     if (_database != null) {
       return _database!;
@@ -51,7 +55,31 @@ class DatabaseHelper {
           )
         ''');
         await db.execute('''
-        CREATE TABLE $t
+        CREATE TABLE $tableCartDetails(
+        $columnProductId INTEGER NOT NULL,
+        $columnQuantity INTEGER NOT NULL,
+        $columnCampaignId INTEGER
+        )
+        ''');
+        await db.execute('''
+        CREATE TABLE $tableBillingShippingDetails(
+        $columnBFirstName TEXT,
+        $columnBLastName TEXT,
+        $columnBPhone TEXT,
+        $columnBEmail TEXT,
+        $columnBDistrict TEXT,
+        $columnBArea TEXT,
+        $columnBAddress TEXT,
+        $columnSFirstName TEXT,
+        $columnSLastName TEXT,
+        $columnSPhone TEXT,
+        $columnSEmail TEXT,
+        $columnSDistrict TEXT,
+        $columnSArea TEXT,
+        $columnSAddress TEXT,
+      
+        
+        )
         ''');
       },
     );
@@ -64,6 +92,17 @@ class DatabaseHelper {
       {columnAccessToken: accessToken},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  static Future<void> insertCartDetail(CartModel cartModel) async {
+    final db = await database;
+    await db.insert(tableCartDetails, cartModel.toMap());
+  }
+
+  Future<List<CartModel>> getCartData() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(tableCartDetails);
+    return maps.map((e) => CartModel.fromMap(e)).toList();
   }
 
   static Future<String?> getAccessToken() async {
