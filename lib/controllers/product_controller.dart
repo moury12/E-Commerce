@@ -1,3 +1,4 @@
+import 'package:angoragh_e_commerce/DB/db_helper.dart';
 import 'package:angoragh_e_commerce/models/cart_model.dart';
 import 'package:angoragh_e_commerce/models/product_details_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
@@ -16,6 +17,7 @@ class ProductController extends GetxController {
   RxList<int> colorList = <int>[].obs;
   RxList<int> sizeList = <int>[].obs;
   RxList<int> brandList = <int>[].obs;
+  RxList<CartModel> cartList=<CartModel>[].obs;
   RxString paginationUrl = ''.obs;
   ScrollController scrollController = ScrollController();
   @override
@@ -26,6 +28,10 @@ class ProductController extends GetxController {
 
   void fetchProductDetails(String slug) async {
     productDetails.value = await ProductService.fetchProductDetails(slug);
+  }
+  void fetchCartList() async{
+    cartList.value = await DatabaseHelper.getCartData();
+    debugPrint(cartList.toString());
   }
 
   Future<void> fetchFilteredProducts({bool initialCall = true}) async {

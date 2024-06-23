@@ -99,7 +99,7 @@ class DatabaseHelper {
     await db.insert(tableCartDetails, cartModel.toMap());
   }
 
-  Future<List<CartModel>> getCartData() async {
+ static Future<List<CartModel>> getCartData() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(tableCartDetails);
     return maps.map((e) => CartModel.fromMap(e)).toList();

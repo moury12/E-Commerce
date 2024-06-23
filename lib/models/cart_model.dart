@@ -1,11 +1,11 @@
 class CartModel {
-  int? id;
-  int productId;
+  // int? id;
+  String productId;
   int quantity;
-  int? campaignId;
+  String? campaignId;
 
   CartModel({
-    this.id,
+    // this.id,
     required this.productId,
     required this.quantity,
     this.campaignId,
@@ -20,7 +20,7 @@ class CartModel {
   }
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
-      id: map['id'],
+      // id: map['id'],
       productId: map['product_id'],
       quantity: map['quantity'],
       campaignId: map['campaign_id'],

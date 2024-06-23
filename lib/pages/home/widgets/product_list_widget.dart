@@ -1,8 +1,11 @@
+import 'package:angoragh_e_commerce/DB/db_helper.dart';
 import 'package:angoragh_e_commerce/constant/constant.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/controllers/product_controller.dart';
+import 'package:angoragh_e_commerce/models/cart_model.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +16,11 @@ class ProductListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(body: Obx(
+    return  Scaffold(
+      appBar: AppBar(actions: [IconButton(onPressed: () {
+
+      }, icon: const Icon(CupertinoIcons.cart))],),
+      body: Obx(
   () {
         return GridView.builder(
           controller:productModel!=null?HomeController.to.scrollController: ProductController.to.scrollController,
@@ -63,8 +70,11 @@ Widget buildProductItem(ProductModel product) {
         ),
         Text(product.name ?? '',maxLines: 2,),
         ElevatedButton(onPressed: () {
-
-        }, child: Text('Add to cart'))
+          Get.put(ProductController());
+          // ProductController.to.fetchProductDetails(product.slug??'');
+DatabaseHelper.insertCartDetail(CartModel(productId: product.id??'', quantity: 1,campaignId: '1'));
+ProductController.to.fetchCartList();
+        }, child: const Text('Add to cart'))
       ],
     ),
   );
