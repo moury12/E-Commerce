@@ -58,15 +58,16 @@ class HomeService {
     }
     return campingData;
   }
-  static Future<DeliveryChargeModel> deliverChargeCall() async {
-    DeliveryChargeModel charge = DeliveryChargeModel();
+  static Future<List<DeliveryChargeModel>> deliverChargeCall() async {
+    List<DeliveryChargeModel> charge = [];
     final url = Uri.parse('${Constant.apiUrl}delivery_charges');
     final headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
     final response = await http.get(url, headers: headers);
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
+    final List<dynamic> dataList =responseData['data'];
     if (responseData['success'] != null && responseData['success']) {
-      charge = DeliveryChargeModel.fromJson(responseData['data']);
+      charge = dataList.map((e) =>DeliveryChargeModel.fromJson(e) ,).toList();
     } else {
       Get.snackbar('Error', responseData['message']);
     }

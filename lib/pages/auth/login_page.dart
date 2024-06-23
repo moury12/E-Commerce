@@ -1,5 +1,7 @@
 import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
+import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -36,8 +38,10 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
+
                 AuthController.to.login(AuthController.to.emailController.text,
                     AuthController.to.passwordController.text);
+                // Get.put(HomeController());
               },
               child: const Text('Login'),
             ),

@@ -7,7 +7,25 @@ class DatabaseHelper {
   static const String tableName = 'login';
   static const String columnId = 'id';
   static const String columnAccessToken = 'access_token';
-
+  static const columnProductId = 'product_id';
+  static const columnQuantity = 'quantity';
+  static const columnCampaignId = 'campaign_id';
+  static const columnBFirstName = 'b_first_name';
+  static const columnBLastName = 'b_last_name';
+  static const columnBPhone = 'b_phone';
+  static const columnBEmail = 'b_email';
+  static const columnBDistrict = 'b_district';
+  static const columnBArea = 'b_area';
+  static const columnBAddress = 'b_address';
+  static const columnSFirstName = 's_first_name';
+  static const columnSLastName = 's_last_name';
+  static const columnSPhone = 's_phone';
+  static const columnSEmail = 's_email';
+  static const columnSDistrict = 's_district';
+  static const columnSArea = 's_area';
+  static const columnSAddress = 's_address';
+  static const columnOrderNotes = 'order_notes';
+  static const columnCouponCode = 'coupon_code';
   static Future<Database> get database async {
     if (_database != null) {
       return _database!;
@@ -31,6 +49,9 @@ class DatabaseHelper {
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
             $columnAccessToken TEXT
           )
+        ''');
+        await db.execute('''
+        CREATE TABLE $t
         ''');
       },
     );

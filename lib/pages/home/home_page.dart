@@ -1,6 +1,8 @@
 import 'package:angoragh_e_commerce/constant/constant.dart';
+import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/controllers/product_controller.dart';
+import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
@@ -27,10 +29,14 @@ class HomeScreen extends StatelessWidget {
               },
               icon: const Icon(Icons.filter)),
           IconButton(
-              onPressed: () {
+              onPressed: () {if(AuthController.to.token!.isNotEmpty&& AuthController.to.isLoggedIn.value){
+                AuthController.to.getUserData();
                 // Get.put(ProductController());
                 Get.toNamed(ProfileScreen.routeName);
-              },
+              }else{
+                Get.toNamed(LoginScreen.routeName);
+              }
+    },
               icon: const Icon(Icons.account_box))
         ],
         leading: Builder(builder: (context) {

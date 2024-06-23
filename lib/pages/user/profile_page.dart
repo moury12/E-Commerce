@@ -1,6 +1,6 @@
 import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
-import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String routeName = '/profile';
@@ -8,11 +8,16 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: AppBar(),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-        Text("${AuthController.to.user.value.firstName??''} ${AuthController.to.user.value.lastName??''}")
+        Obx(
+         () {
+            return Text("${AuthController.to.user.value.firstName??''} ${AuthController.to.user.value.lastName??''}");
+          }
+        )
       ],),
     );
   }

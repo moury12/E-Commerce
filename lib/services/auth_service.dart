@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:angoragh_e_commerce/constant/constant.dart';
 
@@ -25,14 +28,16 @@ return responseData;
    return {};
   }*/
 }
-static Future<UserModel> fetchUserData() async{
+static Future<UserModel> fetchUserData(String token) async{
   UserModel user =UserModel();
   final url = Uri.parse('${Constant.apiUrl}user');
   final header ={
-    'Accept':'application/json'
+    'Accept':'application/json',
+    'Authorization': 'Bearer $token',
   };
   final response =  await http.get(url,headers: header);
   Map<String, dynamic> responseData =jsonDecode(response.body);
+  debugPrint(responseData.toString());
   if(response.statusCode ==200){
     user= UserModel.fromJson(responseData);
   }else{

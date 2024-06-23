@@ -20,7 +20,7 @@ class HomeController extends GetxController {
   RxList<ColorSizeModel> sizeList = <ColorSizeModel>[].obs;
   RxList<BrandModel> brandList = <BrandModel>[].obs;
   RxList<CampingType> campingTypeList = <CampingType>[].obs;
-  Rx<DeliveryChargeModel> deliveryCharge = DeliveryChargeModel().obs;
+  RxList<DeliveryChargeModel> deliveryCharge = <DeliveryChargeModel>[].obs;
   RxString paginationUrl = ''.obs;
   RxList<MultilevelCategoryModel> multilevelCategory = <MultilevelCategoryModel>[].obs;
   Rx<CampaignModel> campingBanner = CampaignModel().obs;
