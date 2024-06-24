@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:angoragh_e_commerce/models/cart_model.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -11,24 +12,24 @@ class DatabaseHelper {
   static const String columnId = 'id';
   static const String columnAccessToken = 'access_token';
   static const tableCartDetails = 'cart_details';
-  static const tableBillingShippingDetails = 'billing_shipping_details';
+  // static const tableBillingShippingDetails = 'billing_shipping_details';
   static const columnProductId = 'product_id';
   static const columnQuantity = 'quantity';
   static const columnCampaignId = 'campaign_id';
-  static const columnBFirstName = 'b_first_name';
-  static const columnBLastName = 'b_last_name';
-  static const columnBPhone = 'b_phone';
-  static const columnBEmail = 'b_email';
-  static const columnBDistrict = 'b_district';
-  static const columnBArea = 'b_area';
-  static const columnBAddress = 'b_address';
-  static const columnSFirstName = 's_first_name';
-  static const columnSLastName = 's_last_name';
-  static const columnSPhone = 's_phone';
-  static const columnSEmail = 's_email';
-  static const columnSDistrict = 's_district';
-  static const columnSArea = 's_area';
-  static const columnSAddress = 's_address';
+  // static const columnBFirstName = 'b_first_name';
+  // static const columnBLastName = 'b_last_name';
+  // static const columnBPhone = 'b_phone';
+  // static const columnBEmail = 'b_email';
+  // static const columnBDistrict = 'b_district';
+  // static const columnBArea = 'b_area';
+  // static const columnBAddress = 'b_address';
+  // static const columnSFirstName = 's_first_name';
+  // static const columnSLastName = 's_last_name';
+  // static const columnSPhone = 's_phone';
+  // static const columnSEmail = 's_email';
+  // static const columnSDistrict = 's_district';
+  // static const columnSArea = 's_area';
+  // static const columnSAddress = 's_address';
 
   static Future<Database> get database async {
     if (_database != null) {
@@ -56,31 +57,31 @@ class DatabaseHelper {
         ''');
         await db.execute('''
         CREATE TABLE $tableCartDetails(
-        $columnProductId INTEGER NOT NULL,
-        $columnQuantity INTEGER NOT NULL,
-        $columnCampaignId INTEGER
+        $columnProductId TEXT,
+        $columnQuantity TEXT,
+        $columnCampaignId TEXT
         )
         ''');
-        await db.execute('''
-        CREATE TABLE $tableBillingShippingDetails(
-        $columnBFirstName TEXT,
-        $columnBLastName TEXT,
-        $columnBPhone TEXT,
-        $columnBEmail TEXT,
-        $columnBDistrict TEXT,
-        $columnBArea TEXT,
-        $columnBAddress TEXT,
-        $columnSFirstName TEXT,
-        $columnSLastName TEXT,
-        $columnSPhone TEXT,
-        $columnSEmail TEXT,
-        $columnSDistrict TEXT,
-        $columnSArea TEXT,
-        $columnSAddress TEXT,
-      
-        
-        )
-        ''');
+        // await db.execute('''
+        // CREATE TABLE $tableBillingShippingDetails(
+        // $columnBFirstName TEXT,
+        // $columnBLastName TEXT,
+        // $columnBPhone TEXT,
+        // $columnBEmail TEXT,
+        // $columnBDistrict TEXT,
+        // $columnBArea TEXT,
+        // $columnBAddress TEXT,
+        // $columnSFirstName TEXT,
+        // $columnSLastName TEXT,
+        // $columnSPhone TEXT,
+        // $columnSEmail TEXT,
+        // $columnSDistrict TEXT,
+        // $columnSArea TEXT,
+        // $columnSAddress TEXT,
+        //
+        //
+        // )
+        // ''');
       },
     );
   }
@@ -102,6 +103,7 @@ class DatabaseHelper {
  static Future<List<CartModel>> getCartData() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(tableCartDetails);
+    debugPrint(maps.toString());
     return maps.map((e) => CartModel.fromMap(e)).toList();
   }
 

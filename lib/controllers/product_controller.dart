@@ -31,7 +31,7 @@ class ProductController extends GetxController {
   }
   void fetchCartList() async{
     cartList.value = await DatabaseHelper.getCartData();
-    debugPrint(cartList.toString());
+    // debugPrint(cartList.toString());
   }
 
   Future<void> fetchFilteredProducts({bool initialCall = true}) async {

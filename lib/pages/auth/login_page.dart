@@ -41,6 +41,7 @@ class LoginScreen extends StatelessWidget {
 
                 AuthController.to.login(AuthController.to.emailController.text,
                     AuthController.to.passwordController.text);
+                AuthController.to.getAccessToken();
                 // Get.put(HomeController());
               },
               child: const Text('Login'),

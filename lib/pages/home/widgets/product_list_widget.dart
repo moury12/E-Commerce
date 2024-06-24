@@ -72,7 +72,7 @@ Widget buildProductItem(ProductModel product) {
         ElevatedButton(onPressed: () {
           Get.put(ProductController());
           // ProductController.to.fetchProductDetails(product.slug??'');
-DatabaseHelper.insertCartDetail(CartModel(productId: product.id??'', quantity: 1,campaignId: '1'));
+DatabaseHelper.insertCartDetail(CartModel(productId: product.id??'', quantity: '1',campaignId: '1'));
 ProductController.to.fetchCartList();
         }, child: const Text('Add to cart'))
       ],

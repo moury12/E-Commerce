@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:angoragh_e_commerce/constant/constant.dart';
 import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
@@ -29,7 +31,10 @@ class HomeScreen extends StatelessWidget {
               },
               icon: const Icon(Icons.filter)),
           IconButton(
-              onPressed: () {if(AuthController.to.token!.isNotEmpty&& AuthController.to.isLoggedIn.value){
+              onPressed: () {
+
+                debugPrint(AuthController.to.token);
+                if(AuthController.to.token!=null &&AuthController.to.token!.isEmpty && AuthController.to.isLoggedIn.value){
                 AuthController.to.getUserData();
                 // Get.put(ProductController());
                 Get.toNamed(ProfileScreen.routeName);

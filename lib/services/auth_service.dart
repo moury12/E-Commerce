@@ -18,6 +18,7 @@ static Future<Map<String ,dynamic>> loginService(String email, String password) 
   final body =jsonEncode({'email':email,'password':password});
   final response = await http.post(url,headers: headers,body: body);
   final Map<String ,dynamic> responseData =json.decode(response.body);
+
   return responseData;
  /* if(response.statusCode==200){
 final Map<String ,dynamic> responseData =json.decode(response.body);

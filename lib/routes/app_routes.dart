@@ -2,6 +2,8 @@ import 'package:angoragh_e_commerce/bindings/home_binding.dart';
 import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
+import 'package:angoragh_e_commerce/pages/cart/cart_page.dart';
+import 'package:angoragh_e_commerce/pages/cart/cart_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/home/home_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
@@ -36,6 +38,10 @@ class AppRoutes {
         GetPage(
           name: ProfileScreen.routeName,
           page: () => const ProfileScreen(),
+        ),
+    GetPage(
+          name: CartScreen.routeName,
+          page: () => const CartScreen(),
         ),
       ];
 }

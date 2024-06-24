@@ -1,7 +1,7 @@
 class CartModel {
   // int? id;
   String productId;
-  int quantity;
+  String quantity;
   String? campaignId;
 
   CartModel({

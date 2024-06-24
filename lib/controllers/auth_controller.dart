@@ -36,6 +36,7 @@ class AuthController extends GetxController {
         var token = data['token'];
         DatabaseHelper.insertLoginData(token);
         isLoggedIn.value = true;
+        debugPrint(response.toString());
         Get.snackbar('Authentication', 'Login successfully!');
 Get.toNamed(SplashScreen.routeName);
         // Get.put<HomeController>(HomeController(), permanent: true);
