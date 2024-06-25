@@ -22,13 +22,17 @@ class ProductController extends GetxController {
   RxList<CartModel> cartList=<CartModel>[].obs;
   RxString paginationUrl = ''.obs;
   ScrollController scrollController = ScrollController();
+  TextEditingController couponController = TextEditingController();
   @override
   void onInit() {
     fetchCartList();
     scrollController.addListener(_scrollListener);
     super.onInit();
   }
-
+@override
+  void onClose() {
+couponController.dispose();    super.onClose();
+  }
   void fetchProductDetails(String slug) async {
     productDetails.value = await ProductService.fetchProductDetails(slug);
   }

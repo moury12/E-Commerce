@@ -94,9 +94,11 @@ class ProductService {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     };
-    final response = await http.post(url, headers: headers, body: body);
+    final response = await http.post(url,  body: body);
     final Map<String, dynamic> responseData = await jsonDecode(response.body);
+    debugPrint(body);
 
+    debugPrint(responseData.toString());
     if (responseData['success'] != null && responseData['success']) {
       orderCalculationModel =
           OrderCalculationModel.fromJson(responseData['data']);
