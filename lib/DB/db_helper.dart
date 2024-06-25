@@ -13,7 +13,10 @@ class DatabaseHelper {
   static const String columnAccessToken = 'access_token';
   static const tableCartDetails = 'cart_details';
   // static const tableBillingShippingDetails = 'billing_shipping_details';
+
+  static const columnProductSlug = 'product_slug';
   static const columnProductId = 'product_id';
+  static const columnCartId = 'cart_id';
   static const columnQuantity = 'quantity';
   static const columnCampaignId = 'campaign_id';
   // static const columnBFirstName = 'b_first_name';
@@ -57,7 +60,9 @@ class DatabaseHelper {
         ''');
         await db.execute('''
         CREATE TABLE $tableCartDetails(
+        $columnCartId INTEGER PRIMARY KEY AUTOINCREMENT,
         $columnProductId TEXT,
+        $columnProductSlug TEXT,
         $columnQuantity TEXT,
         $columnCampaignId TEXT
         )
@@ -100,11 +105,18 @@ class DatabaseHelper {
     await db.insert(tableCartDetails, cartModel.toMap());
   }
 
- static Future<List<CartModel>> getCartData() async {
+  static Future<List<CartModel>> getCartData() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(tableCartDetails);
-    debugPrint(maps.toString());
+
     return maps.map((e) => CartModel.fromMap(e)).toList();
+  }
+
+  static Future<void> updateCart(int id, String quantity) async {
+    final db = await database;
+
+    await db.update(tableCartDetails, {'quantity': quantity},
+        where: 'cart_id=?', whereArgs: [id]);
   }
 
   static Future<String?> getAccessToken() async {

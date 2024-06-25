@@ -68,11 +68,11 @@ Widget buildProductItem(ProductModel product) {
         Expanded(
           child: Image.network(fit: BoxFit.fitWidth, '${Constant.url}${product.mainImages ?? ''}'),
         ),
-        Text(product.name ?? '',maxLines: 2,),
+        Text(product.slug ?? '',maxLines: 2,),
         ElevatedButton(onPressed: () {
           Get.put(ProductController());
           // ProductController.to.fetchProductDetails(product.slug??'');
-DatabaseHelper.insertCartDetail(CartModel(productId: product.id??'', quantity: '1',campaignId: '1'));
+DatabaseHelper.insertCartDetail(CartModel(productSlug:product.slug??'',productId: product.id??'', quantity: '1',campaignId: 'null'));
 ProductController.to.fetchCartList();
         }, child: const Text('Add to cart'))
       ],

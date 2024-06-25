@@ -1,29 +1,34 @@
 class CartModel {
-  // int? id;
+   int? id;
   String productId;
   String quantity;
+  String productSlug;
   String? campaignId;
 
   CartModel({
-    // this.id,
+     this.id,
     required this.productId,
+    required this.productSlug,
     required this.quantity,
     this.campaignId,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'cart_id': id,
       'product_id': productId,
+      'product_slug': productSlug,
       'quantity': quantity,
       'campaign_id': campaignId,
     };
   }
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
-      // id: map['id'],
-      productId: map['product_id'],
-      quantity: map['quantity'],
-      campaignId: map['campaign_id'],
+       id: map['cart_id'],
+      productId: map['product_id'].toString()=='null'?'':map['product_id'].toString(),
+      productSlug: map['product_slug'].toString()=='null'?'':map['product_slug'].toString(),
+      quantity: map['quantity'].toString()=='null'?'':map['quantity'].toString(),
+      campaignId: map['campaign_id'].toString()=='null'?'':map['campaign_id'].toString(),
     );
   }
 

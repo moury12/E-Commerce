@@ -6,6 +6,7 @@ import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/controllers/product_controller.dart';
 import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
+import 'package:angoragh_e_commerce/pages/cart/cart_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
 import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
@@ -24,6 +25,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          IconButton(onPressed: () {
+            Get.put(ProductController());
+            Get.toNamed(CartScreen.routeName);
+          }, icon: Icon(Icons.shopping_cart_outlined)),
           IconButton(
               onPressed: () {
                 Get.put(ProductController());
