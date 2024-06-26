@@ -12,43 +12,59 @@ import 'package:get/get.dart';
 class ProductListWidget extends StatelessWidget {
   final List<ProductModel>? productModel;
   final List<FilteredProductModel>? filterProduct;
-  const ProductListWidget({super.key,  this.productModel, this.filterProduct});
+  const ProductListWidget({super.key, this.productModel, this.filterProduct});
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(actions: [IconButton(onPressed: () {
-
-      }, icon: const Icon(CupertinoIcons.cart))],),
-      body: Obx(
-  () {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.cart))
+        ],
+      ),
+      body: Obx(() {
         return GridView.builder(
-          controller:productModel!=null?HomeController.to.scrollController: ProductController.to.scrollController,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemCount: ( productModel == null)?filterProduct!.length:productModel!.length,
+          controller: productModel != null
+              ? HomeController.to.scrollController
+              : ProductController.to.scrollController,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
+          itemCount: (productModel == null)
+              ? filterProduct!.length
+              : productModel!.length,
           itemBuilder: (context, index) {
-          final product=(productModel == null)?filterProduct![index]:productModel![index];
-          if (product is ProductModel) {
-            return buildProductItem(product);
-          } else if (product is FilteredProductModel) {
-            return buildFilteredProductItem(product);
-          } else {
-            return Container();
-          }
-
-        },);
-      }
-    ),);
+            final product = (productModel == null)
+                ? filterProduct![index]
+                : productModel![index];
+            if (product is ProductModel) {
+              // ProductController.to.fetchProductDetails(product.slug??'');
+              return buildProductItem(product);
+            } else if (product is FilteredProductModel) {
+              return buildFilteredProductItem(product);
+            } else {
+              return Container();
+            }
+          },
+        );
+      }),
+    );
   }
 
   Widget buildFilteredProductItem(FilteredProductModel product) {
-    return
-      Column(
-        children: [
-          Image.network('${Constant.url}${product.mainImages}',height: 100,width: 100,),
-          Text(product.name??'',maxLines: 2,),Text('${product.categoryId??' '} ${product.colors} ${product.brandId}')
-        ],
-      );
+    return Column(
+      children: [
+        Image.network(
+          '${Constant.url}${product.mainImages}',
+          height: 100,
+          width: 100,
+        ),
+        Text(
+          product.name ?? '',
+          maxLines: 2,
+        ),
+        Text('${product.categoryId ?? ''} ${product.colors} ${product.brandId}')
+      ],
+    );
   }
 }
 
@@ -66,15 +82,37 @@ Widget buildProductItem(ProductModel product) {
     child: Column(
       children: [
         Expanded(
-          child: Image.network(fit: BoxFit.fitWidth, '${Constant.url}${product.mainImages ?? ''}'),
+          child: Image.network(
+              fit: BoxFit.fitWidth,
+              '${Constant.url}${product.mainImages ?? ''}'),
         ),
-        Text(product.slug ?? '',maxLines: 2,),
-        ElevatedButton(onPressed: () {
-          Get.put(ProductController());
-          // ProductController.to.fetchProductDetails(product.slug??'');
-DatabaseHelper.insertCartDetail(CartModel(productSlug:product.slug??'',productId: product.id??'', quantity: '1',campaignId: 'null'));
-ProductController.to.fetchCartList();
-        }, child: const Text('Add to cart'))
+        Text(
+          product.slug ?? '',
+          maxLines: 2,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.put(ProductController());
+              final int index = ProductController.to.cartList.indexWhere(
+                (element) => element.productId == product.id,
+              );
+              if (index != -1) {
+                ProductController.to.cartList.refresh();
+                ProductController.to.updateCartQuantity(
+                    ProductController.to.cartList[index].id ?? 0,
+                    (int.parse(ProductController.to.cartList[index].quantity) +
+                            1)
+                        .toString());
+              } else {
+                DatabaseHelper.insertCartDetail(CartModel(
+                    productSlug: product.slug ?? '',
+                    productId: product.id ?? '',
+                    quantity: '1',
+                    campaignId: 'null'));
+              }
+              ProductController.to.fetchCartList();
+            },
+            child: const Text('Add to cart'))
       ],
     ),
   );

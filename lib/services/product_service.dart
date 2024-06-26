@@ -87,27 +87,46 @@ class ProductService {
     return filteredProducts;
   }
 
-  static Future<OrderCalculationModel> orderCalculation(dynamic body) async {
+  static Future<OrderCalculationModel> orderCalculation(
+      Map<String, dynamic> body) async {
     OrderCalculationModel orderCalculationModel = OrderCalculationModel();
     final url = Uri.parse('${Constant.apiUrl}order-calculation');
     final headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     };
-    final response = await http.post(url,  body: body);
+    final response =
+        await http.post(url, body: jsonEncode(body), headers: headers);
     final Map<String, dynamic> responseData = await jsonDecode(response.body);
-    debugPrint(body);
-
+    debugPrint(body.toString());
     debugPrint(responseData.toString());
     if (responseData['success'] != null && responseData['success']) {
       orderCalculationModel =
           OrderCalculationModel.fromJson(responseData['data']);
-    }else{
+    } else {
       Get.snackbar('Error', responseData["message"]);
     }
     return orderCalculationModel;
   }
 
+  static Future<void> orderProduct(dynamic body,String token) async{
+    final url = Uri.parse('${Constant.apiUrl}order_data');
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+    };
+    final response = await http.post(url,body: jsonEncode(body),headers: headers);
+    final Map<String, dynamic> responseData = await jsonDecode(response.body);
+    debugPrint(body.toString());
+    debugPrint(responseData.toString());
+    if(responseData['success']!=null&&responseData['success']){
+      Get.snackbar("Thanks", "Order place Successfully");
+    }else{
+      Get.snackbar("We are sorry!", responseData['message']);
+
+    }
+  }
   static Future<Map<ProductVariation, List<ColorSizeModel>>>
       fetchColorSizeOfProduct() async {
     List<ColorSizeModel> colors = [];

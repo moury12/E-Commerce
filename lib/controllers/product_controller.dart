@@ -64,4 +64,8 @@ void updateCartQuantity(int id, String quantity) async{
       }
     }
   }
+void deleteCartItem(int id) async{
+    await DatabaseHelper.deleteCartItem(id);
+    fetchCartList();
+}
 }

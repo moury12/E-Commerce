@@ -1,15 +1,17 @@
 class CartModel {
-   int? id;
+  int? id;
   String productId;
   String quantity;
   String productSlug;
+  bool? selected = false;
   String? campaignId;
 
   CartModel({
-     this.id,
+    this.id,
     required this.productId,
     required this.productSlug,
     required this.quantity,
+    this.selected,
     this.campaignId,
   });
 
@@ -22,16 +24,25 @@ class CartModel {
       'campaign_id': campaignId,
     };
   }
+
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
-       id: map['cart_id'],
-      productId: map['product_id'].toString()=='null'?'':map['product_id'].toString(),
-      productSlug: map['product_slug'].toString()=='null'?'':map['product_slug'].toString(),
-      quantity: map['quantity'].toString()=='null'?'':map['quantity'].toString(),
-      campaignId: map['campaign_id'].toString()=='null'?'':map['campaign_id'].toString(),
+      id: map['cart_id'],
+      selected: false,
+      productId: map['product_id'].toString() == 'null'
+          ? ''
+          : map['product_id'].toString(),
+      productSlug: map['product_slug'].toString() == 'null'
+          ? ''
+          : map['product_slug'].toString(),
+      quantity: map['quantity'].toString() == 'null'
+          ? ''
+          : map['quantity'].toString(),
+      campaignId: map['campaign_id'].toString() == 'null'
+          ? 'null'
+          : map['campaign_id'].toString(),
     );
   }
-
 }
 
 class BillingShippingDetail {

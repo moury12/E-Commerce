@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:angoragh_e_commerce/constant/constant.dart';
 
@@ -20,14 +18,7 @@ static Future<Map<String ,dynamic>> loginService(String email, String password) 
   final Map<String ,dynamic> responseData =json.decode(response.body);
 
   return responseData;
- /* if(response.statusCode==200){
-final Map<String ,dynamic> responseData =json.decode(response.body);
-globalLogger.d(responseData, 'login response');
-return responseData;
-  }
-  else{
-   return {};
-  }*/
+
 }
 static Future<UserModel> fetchUserData(String token) async{
   UserModel user =UserModel();

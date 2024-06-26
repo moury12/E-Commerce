@@ -119,6 +119,11 @@ class DatabaseHelper {
         where: 'cart_id=?', whereArgs: [id]);
   }
 
+  static Future<void> deleteCartItem(int id) async {
+    final db = await database;
+    await db.delete(tableCartDetails, where: 'cart_id=?', whereArgs: [id]);
+  }
+
   static Future<String?> getAccessToken() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(tableName);
