@@ -68,7 +68,7 @@ class ProductListWidget extends StatelessWidget {
   }
 }
 
-Widget buildProductItem(ProductModel product) {
+Widget buildProductItem(ProductModel product,) {
   return GestureDetector(
     onTap: () {
       if (product.slug != null || product.slug!.isNotEmpty) {
@@ -107,6 +107,8 @@ Widget buildProductItem(ProductModel product) {
                 DatabaseHelper.insertCartDetail(CartModel(
                     productSlug: product.slug ?? '',
                     productId: product.id ?? '',
+                    colorId: 'null',
+                    sizeId: 'null',
                     quantity: '1',
                     campaignId: 'null'));
               }

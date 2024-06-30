@@ -8,6 +8,7 @@ import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
 import 'package:angoragh_e_commerce/pages/cart/cart_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
+import 'package:angoragh_e_commerce/pages/order/user_order_list_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
 import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -39,15 +40,28 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
 
                 debugPrint(AuthController.to.token);
-                if(AuthController.to.token!=null &&AuthController.to.token!.isEmpty && AuthController.to.isLoggedIn.value){
-                AuthController.to.getUserData();
+                if(AuthController.to.token!=null &&AuthController.to.token!.isNotEmpty && AuthController.to.isLoggedIn.value){
+                // AuthController.to.getUserData();
                 // Get.put(ProductController());
                 Get.toNamed(ProfileScreen.routeName);
               }else{
                 Get.toNamed(LoginScreen.routeName);
               }
     },
-              icon: const Icon(Icons.account_box))
+              icon: const Icon(Icons.account_box)),
+          IconButton(
+              onPressed: () {
+
+                debugPrint(AuthController.to.token);
+                if(AuthController.to.token!=null &&AuthController.to.token!.isNotEmpty && AuthController.to.isLoggedIn.value){
+                // AuthController.to.getUserData();
+                // Get.put(ProductController());
+                Get.toNamed(UserOrderListScreen.routeName);
+              }else{
+                Get.toNamed(LoginScreen.routeName);
+              }
+    },
+              icon: const Icon(Icons.shopping_bag_outlined)),
         ],
         leading: Builder(builder: (context) {
           return IconButton(
@@ -133,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                     onTap: () {
                       if (sellerPicks.slug != null || sellerPicks.slug!.isNotEmpty) {
                         Get.put(ProductController());
-                        ProductController.to.fetchProductDetails(sellerPicks.slug ?? '');
+                        ProductController.to.fetchProductDetails(sellerPicks.id ?? '');
                         Get.toNamed(ProductDetailsScreen.routeName);
                       } else {
                         Get.snackbar('Sorry!', "Product details is not available.");

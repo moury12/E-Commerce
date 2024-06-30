@@ -1,7 +1,5 @@
 import 'package:angoragh_e_commerce/DB/db_helper.dart';
-import 'package:angoragh_e_commerce/controllers/home_controller.dart';
-import 'package:angoragh_e_commerce/models/user_model.dart';
-import 'package:angoragh_e_commerce/pages/home/home_page.dart';
+import 'package:angoragh_e_commerce/controllers/user_controller.dart';
 import 'package:angoragh_e_commerce/pages/splash_screen.dart';
 import 'package:angoragh_e_commerce/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +10,6 @@ class AuthController extends GetxController {
   RxBool isLoggedIn = false.obs;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  Rx<UserModel> user = UserModel().obs;
   String? token;
   @override
   void onInit() {
@@ -37,8 +34,10 @@ class AuthController extends GetxController {
         DatabaseHelper.insertLoginData(token);
         isLoggedIn.value = true;
         debugPrint(response.toString());
+        // Get.put<UserController>(UserController(), permanent: true);
+        getAccessToken();
         Get.snackbar('Authentication', 'Login successfully!');
-Get.toNamed(SplashScreen.routeName);
+        Get.toNamed(SplashScreen.routeName);
         // Get.put<HomeController>(HomeController(), permanent: true);
         // Get.toNamed(HomeScreen.routeName);
       } else {
@@ -55,15 +54,11 @@ Get.toNamed(SplashScreen.routeName);
     token = await DatabaseHelper.getAccessToken();
     if (token != null) {
       isLoggedIn.value = true;
-      Get.put<HomeController>(HomeController(), permanent: true);
+      // Get.put<HomeController>(HomeController(), permanent: true);
+      Get.put<UserController>(UserController(), permanent: true);
       debugPrint('$token Access Token');
     } else {
       isLoggedIn.value = false;
     }
-  }
-
-  void getUserData() async {
-    debugPrint(token);
-    user.value = await AuthService.fetchUserData(token??'');
   }
 }

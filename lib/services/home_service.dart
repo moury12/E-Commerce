@@ -99,6 +99,7 @@ class HomeService {
       final response = await http.get(url, headers: headers);
 
       final Map<String, dynamic> responseData = jsonDecode(response.body);
+      debugPrint(responseData.toString());
       if (responseData['success'] != null && responseData['success']) {
         final Map<String, dynamic> data = responseData['data'];
         final List<dynamic> productDataList = data['data']; // Accessing the 'data' field correctly

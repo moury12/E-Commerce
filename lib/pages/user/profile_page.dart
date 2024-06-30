@@ -1,4 +1,6 @@
 import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
+import 'package:angoragh_e_commerce/controllers/user_controller.dart';
+import 'package:angoragh_e_commerce/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
         Obx(
          () {
-            return Text("${AuthController.to.user.value.firstName??''} ${AuthController.to.user.value.lastName??''}");
+            return Text("${UserController.to.user.value.firstName??''} ${UserController.to.user.value.lastName??''}");
           }
         )
       ],),

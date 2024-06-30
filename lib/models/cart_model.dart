@@ -1,6 +1,8 @@
 class CartModel {
   int? id;
   String productId;
+  String? colorId;
+  String? sizeId;
   String quantity;
   String productSlug;
   bool? selected = false;
@@ -12,6 +14,8 @@ class CartModel {
     required this.productSlug,
     required this.quantity,
     this.selected,
+    this.colorId,
+    this.sizeId,
     this.campaignId,
   });
 
@@ -19,6 +23,8 @@ class CartModel {
     return {
       'cart_id': id,
       'product_id': productId,
+      'color_id': colorId,
+      'size_id': sizeId,
       'product_slug': productSlug,
       'quantity': quantity,
       'campaign_id': campaignId,
@@ -29,18 +35,12 @@ class CartModel {
     return CartModel(
       id: map['cart_id'],
       selected: false,
-      productId: map['product_id'].toString() == 'null'
-          ? ''
-          : map['product_id'].toString(),
-      productSlug: map['product_slug'].toString() == 'null'
-          ? ''
-          : map['product_slug'].toString(),
-      quantity: map['quantity'].toString() == 'null'
-          ? ''
-          : map['quantity'].toString(),
-      campaignId: map['campaign_id'].toString() == 'null'
-          ? 'null'
-          : map['campaign_id'].toString(),
+      productId: map['product_id'].toString() == 'null' ? '' : map['product_id'].toString(),
+      colorId: map['color_id'].toString() == 'null' ? '' : map['color_id'].toString(),
+      sizeId: map['size_id'].toString() == 'null' ? '' : map['size_id'].toString(),
+      productSlug: map['product_slug'].toString() == 'null' ? '' : map['product_slug'].toString(),
+      quantity: map['quantity'].toString() == 'null' ? '' : map['quantity'].toString(),
+      campaignId: map['campaign_id'].toString() == 'null' ? 'null' : map['campaign_id'].toString(),
     );
   }
 }

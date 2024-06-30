@@ -16,6 +16,8 @@ class DatabaseHelper {
 
   static const columnProductSlug = 'product_slug';
   static const columnProductId = 'product_id';
+  static const columnColorId = 'color_id';
+  static const columnSizeId = 'size_id';
   static const columnCartId = 'cart_id';
   static const columnQuantity = 'quantity';
   static const columnCampaignId = 'campaign_id';
@@ -62,6 +64,8 @@ class DatabaseHelper {
         CREATE TABLE $tableCartDetails(
         $columnCartId INTEGER PRIMARY KEY AUTOINCREMENT,
         $columnProductId TEXT,
+        $columnColorId TEXT,
+        $columnSizeId TEXT,
         $columnProductSlug TEXT,
         $columnQuantity TEXT,
         $columnCampaignId TEXT

@@ -1,14 +1,13 @@
 import 'package:angoragh_e_commerce/bindings/home_binding.dart';
 import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
 import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
-import 'package:angoragh_e_commerce/pages/camping-details/camping_details_page.dart';
-import 'package:angoragh_e_commerce/pages/cart/cart_page.dart';
 import 'package:angoragh_e_commerce/pages/cart/cart_page.dart';
 import 'package:angoragh_e_commerce/pages/filter_page.dart';
 import 'package:angoragh_e_commerce/pages/home/home_page.dart';
+import 'package:angoragh_e_commerce/pages/order/order_details.dart';
+import 'package:angoragh_e_commerce/pages/order/user_order_list_page.dart';
 import 'package:angoragh_e_commerce/pages/product-details/product_details_page.dart';
 import 'package:angoragh_e_commerce/pages/splash_screen.dart';
-import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
 import 'package:angoragh_e_commerce/pages/user/profile_page.dart';
 import 'package:get/get.dart';
 
@@ -39,9 +38,17 @@ class AppRoutes {
           name: ProfileScreen.routeName,
           page: () => const ProfileScreen(),
         ),
-    GetPage(
+        GetPage(
           name: CartScreen.routeName,
           page: () => const CartScreen(),
+        ),
+        GetPage(
+          name: OrderDetails.routeName,
+          page: () => const OrderDetails(),
+        ),
+        GetPage(
+          name: UserOrderListScreen.routeName,
+          page: () => const UserOrderListScreen(),
         ),
       ];
 }
