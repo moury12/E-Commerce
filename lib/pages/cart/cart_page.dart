@@ -1,8 +1,10 @@
 import 'package:angoragh_e_commerce/controllers/auth_controller.dart';
 import 'package:angoragh_e_commerce/controllers/home_controller.dart';
 import 'package:angoragh_e_commerce/controllers/product_controller.dart';
+import 'package:angoragh_e_commerce/controllers/user_controller.dart';
 import 'package:angoragh_e_commerce/models/product_model.dart';
-import 'package:angoragh_e_commerce/services/product_service.dart';
+import 'package:angoragh_e_commerce/pages/auth/login_page.dart';
+import 'package:angoragh_e_commerce/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,61 +19,20 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           ElevatedButton(
-              onPressed: () async { ProductController.to.cartList
-                  .where(
-                    (e) => e.selected ?? false,
-              ).isEmpty?Get.snackbar("Error", "Please select from cart List"):
-                await ProductService.orderProduct({
-                  'order_details': ProductController.to.cartList
-                      .where(
-                        (e) => e.selected ?? false,
-                      )
-                      .map(
-                        (element) {
-                          return {
-                            '"product_id"': element.productId,
-                            '"quantity"': element.quantity,
-                            '"campaign_id"': element.campaignId
-                          };
-                        },
-                      )
-                      .toList()
-                      .toString(),
-                  'billing_shipping_details': {
-                    "b_first_name":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bFirstName,
-                    "b_last_name":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bLastName,
-                    "b_phone":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bPhone,
-                    "b_email":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bEmail,
-                    "b_district":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bZoneName,
-                    "b_area":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bAreaName,
-                    "b_address":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].bAddress,
-                    "s_first_name":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sFirstName,
-                    "s_last_name":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sLastName,
-                    "s_phone":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sPhone,
-                    "s_email":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sEmail,
-                    "s_district":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sZoneName,
-                    "s_area":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sAreaName,
-                    "s_address":
-                        AuthController.to.user.value.userAddress==null?'test':AuthController.to.user.value.userAddress![0].sAddress
-                  },
-                  'order_notes': 'order notes',
-                  'coupon_code': 'Anghorag'
-                }, AuthController.to.token ?? '');
+              onPressed: () async {
+                if (AuthController.to.token != null) {
+                  ProductController.to.cartList
+                          .where(
+                            (e) => e.selected ?? false,
+                          )
+                          .isEmpty
+                      ? Get.snackbar("Error", "Please select from cart List")
+                      : UserController.to.getOrderData();
+                } else {
+                  Get.toNamed(LoginScreen.routeName);
+                }
               },
-              child: Text('order')),
+              child: const Text('order')),
           ElevatedButton(
               onPressed: () {
 // debugPrint( ProductController.to.cartList.where((e) => e.selected??false,).map((element) {
@@ -84,11 +45,7 @@ class CartScreen extends StatelessWidget {
                       )
                       .map(
                         (element) {
-                          return {
-                            '"product_id"': element.productId,
-                            '"quantity"': element.quantity,
-                            '"campaign_id"': element.campaignId
-                          };
+                          return {'"product_id"': element.productId, '"quantity"': element.quantity, '"campaign_id"': element.campaignId};
                         },
                       )
                       .toList()
@@ -99,13 +56,13 @@ class CartScreen extends StatelessWidget {
               child: const Text('Calculate'))
         ],
       ),
-      body: Column(
+      body: Column(mainAxisSize: MainAxisSize.min,
         children: [
           Obx(() {
             return Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                primary: false,
+                // primary: false,
                 itemBuilder: (context, index) {
                   final cart = ProductController.to.cartList[index];
 
@@ -120,8 +77,7 @@ class CartScreen extends StatelessWidget {
                       cart.selected = !cart.selected!;
                       ProductController.to.cartList.refresh();
                     },
-                    tileColor:
-                        cart.selected! ? Colors.black26 : Colors.transparent,
+                    tileColor: cart.selected! ? Colors.black26 : Colors.transparent,
                     title: Text(product.name ?? 'No name'),
                     leading: IconButton(
                       icon: const Icon(CupertinoIcons.delete),
@@ -138,8 +94,7 @@ class CartScreen extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               final newVal = int.parse(cart.quantity) + 1;
-                              ProductController.to.updateCartQuantity(
-                                  cart.id ?? 0, newVal.toString());
+                              ProductController.to.updateCartQuantity(cart.id ?? 0, newVal.toString());
                               ProductController.to.fetchCartList();
                             },
                             icon: const Icon(CupertinoIcons.plus_circle)),
@@ -147,8 +102,7 @@ class CartScreen extends StatelessWidget {
                             onPressed: () {
                               if (int.parse(cart.quantity) > 1) {
                                 final newVal = int.parse(cart.quantity) - 1;
-                                ProductController.to.updateCartQuantity(
-                                    cart.id ?? 0, newVal.toString());
+                                ProductController.to.updateCartQuantity(cart.id ?? 0, newVal.toString());
                                 ProductController.to.fetchCartList();
                               }
                             },
@@ -161,11 +115,12 @@ class CartScreen extends StatelessWidget {
               ),
             );
           }),
+          Obx(() => Text(UserController.to.orderData.value.id??'')),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: ProductController.to.couponController,
-              decoration: InputDecoration(hintText: 'enter coupon code'),
+              decoration: const InputDecoration(hintText: 'enter coupon code'),
             ),
           ),
           Padding(

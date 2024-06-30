@@ -20,21 +20,4 @@ static Future<Map<String ,dynamic>> loginService(String email, String password) 
   return responseData;
 
 }
-static Future<UserModel> fetchUserData(String token) async{
-  UserModel user =UserModel();
-  final url = Uri.parse('${Constant.apiUrl}user');
-  final header ={
-    'Accept':'application/json',
-    'Authorization': 'Bearer $token',
-  };
-  final response =  await http.get(url,headers: header);
-  Map<String, dynamic> responseData =jsonDecode(response.body);
-  debugPrint(responseData.toString());
-  if(response.statusCode ==200){
-    user= UserModel.fromJson(responseData);
-  }else{
-    Get.snackbar('Authenticate Error','Failed to load user data');
-  }
-  return user;
-}
 }

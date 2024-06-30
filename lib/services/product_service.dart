@@ -22,6 +22,7 @@ class ProductService {
     };
     final response = await http.get(headers: headers, url);
     final Map<String, dynamic> responseData = jsonDecode(response.body);
+    debugPrint(responseData.toString());
     if (responseData['success'] != null && responseData['success']) {
       productDetailsModel = ProductDetailsModel.fromJson(responseData['data']);
     } else {
@@ -109,24 +110,6 @@ class ProductService {
     return orderCalculationModel;
   }
 
-  static Future<void> orderProduct(dynamic body,String token) async{
-    final url = Uri.parse('${Constant.apiUrl}order_data');
-    final headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token',
-    };
-    final response = await http.post(url,body: jsonEncode(body),headers: headers);
-    final Map<String, dynamic> responseData = await jsonDecode(response.body);
-    debugPrint(body.toString());
-    debugPrint(responseData.toString());
-    if(responseData['success']!=null&&responseData['success']){
-      Get.snackbar("Thanks", "Order place Successfully");
-    }else{
-      Get.snackbar("We are sorry!", responseData['message']);
-
-    }
-  }
   static Future<Map<ProductVariation, List<ColorSizeModel>>>
       fetchColorSizeOfProduct() async {
     List<ColorSizeModel> colors = [];
